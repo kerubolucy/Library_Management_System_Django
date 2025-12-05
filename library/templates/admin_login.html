@@ -8,7 +8,14 @@
 <br>
 <h1 class="text-center"><u>Admin Login</u></h1><br>
 <p><b>Note:</b> Only the admin can login from here. No student will be allowed to login.</p>
-    <form method="POST"> {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form method="POST" action="{% url 'admin_login' %}"> {% csrf_token %}
 
     <div class="row mt-4">
         <div class="form-group col-md-12">
@@ -25,12 +32,18 @@
     </div>
     <button type="submit" class="btn btn-outline-primary mt-4">Login</button>
 </div>
-{% endblock %}
+
+<!--{% endblock %}
 {% block js %}
 <script>
     {% if alert %}
     alert("Invalid Username or Password.")
-    document.location = "/admin_login"
     {% endif %}
 </script>
-{% endblock %}
+{% endblock %}-->
+{% if alert %}
+<script>
+    alert("Invalid Username or Password.");
+    window.location.href = "{% url 'admin_login' %}";
+</script>
+{% endif %}
